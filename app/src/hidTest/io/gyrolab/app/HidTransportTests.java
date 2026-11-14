@@ -80,5 +80,20 @@ public final class HidTransportTests {
         f.reconnect();f.transport.close();check(!f.transport.ready()&&f.fake.unregisterCalls==1&&f.adapter.closed==1,"close unregisters and closes profile");before=f.fake.reports.size();f.transport.send(100,100,7,3);f.transport.start();check(f.fake.reports.size()==before&&!f.transport.ready(),"closed transport never emits future input");
         Fixture permission=new Fixture();permission.adapter.denyPermission=true;permission.transport.bondedHosts();check(permission.transport.status.contains("permission"),"paired device permission error is observable");
     }
-    public static void main(String[] args){descriptor();splitting();safetyAndFailures();lifecycle();System.out.println("HidTransport API-double tests: "+checks+" assertions passed. No Android/Bluetooth/Windows hardware was exercised.");}
+    private static void pairing() {
+        Fixture f=new Fixture();f.transport.disconnect();int before=f.fake.connectCalls;
+        f.host.bondState=11;f.transport.connect(f.host);
+        check(f.fake.connectCalls==before,"never initiate HID while SSP bond is in progress");
+        f.host.bondState=12;f.transport.connect(f.host);
+        check(f.fake.connectCalls==before+1,"manual connect allowed after bond completes");
+        f.transport.beginPairing();
+        check(!f.transport.isPairingPrepared(),"fresh pairing waits for new registration callback");
+        check(f.handler.delayedCount()==0,"fresh pairing cancels outgoing retries");
+        f.fake.callback.onAppStatusChanged(null,false);
+        check(!f.transport.isPairingPrepared(),"unregister event cannot expose premature discovery readiness");
+        before=f.fake.connectCalls;f.fake.callback.onAppStatusChanged(f.host,true);
+        check(f.transport.isPairingPrepared(),"fresh registration enables host-initiated discovery");
+        check(f.fake.connectCalls==before,"plugged-device callback does not initiate a competing HID connection");
+    }
+    public static void main(String[] args){descriptor();splitting();safetyAndFailures();lifecycle();pairing();System.out.println("HidTransport API-double tests: "+checks+" assertions passed. No Android/Bluetooth/Windows hardware was exercised.");}
 }

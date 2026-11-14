@@ -1,3 +1,5 @@
+Current:0.1.2 host-initiated pairing; see PAIRING-0.1.2.md. Build/lint/signature passed;967 focused HID assertions passed. Hardware pairing unverified. Earlier results below are historical.
+
 Latest update: version0.1.1 pairing fix; see PAIRING-FIX.md for current build/verification and retry instructions. Earlier0.1.0 evidence below is historical.
 
 # Verification results

@@ -76,9 +76,23 @@ public class MainActivity extends Activity implements SensorEventListener {
     sensors = (SensorManager) getSystemService(SENSOR_SERVICE);
     hid = new HidTransport(this, input);
     udp = new UdpTransport(input);
+    IntentFilter bondFilter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+    if (Build.VERSION.SDK_INT >= 33) registerReceiver(bondReceiver, bondFilter, Context.RECEIVER_EXPORTED);
+    else registerReceiver(bondReceiver, bondFilter);
     render(0);
     ui.post(tick);
   }
+
+  private volatile String bondStatus = "No pairing event yet";
+  private final BroadcastReceiver bondReceiver = new BroadcastReceiver() {
+    @Override public void onReceive(Context context, Intent intent) {
+      int state = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.ERROR);
+      if (state == BluetoothDevice.BOND_BONDING) bondStatus = "System pairing in progress — confirm the matching codes";
+      else if (state == BluetoothDevice.BOND_BONDED) bondStatus = "System pairing complete — host can connect as a mouse";
+      else if (state == BluetoothDevice.BOND_NONE) bondStatus = "System pairing failed/removed (reason " + intent.getIntExtra("android.bluetooth.device.extra.REASON", 0) + ")";
+      note = bondStatus;
+    }
+  };
 
   private int dp(float n) {
     return (int) (n * getResources().getDisplayMetrics().density + .5f);
@@ -337,6 +351,11 @@ public class MainActivity extends Activity implements SensorEventListener {
   }
 
   private void advancedPage() {
+    button("Copy Bluetooth status", () -> {
+      android.content.ClipboardManager clipboard = (android.content.ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+      clipboard.setPrimaryClip(ClipData.newPlainText("GyroLab Bluetooth", "GyroLab 0.1.2\n" + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + " / Android " + android.os.Build.VERSION.RELEASE + "\n" + bondStatus + "\n" + hid.status + "\nHID registered: " + hid.isRegistered()));
+      note = "Bluetooth status copied";
+    });
     button(
         "Edit processing parameters / compose pipeline",
         () -> AdvancedPanel.show(this, config.copy(), this::apply));
@@ -791,10 +810,10 @@ public class MainActivity extends Activity implements SensorEventListener {
   private boolean pairPending;
   private void awaitPairReady(long deadline) {
     if (!foreground || isFinishing()) { pairPending = false; return; }
-    if (PairingService.active && hid.isRegistered()) {
+    if (PairingService.active && hid.isPairingPrepared()) {
       pairPending = false;
       Intent discover = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-      discover.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
+      discover.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
       try { startActivity(discover); note = "Pair from iPad / PC Bluetooth settings and confirm both codes."; }
       catch (SecurityException e) { note = "Bluetooth permission changed; grant Nearby devices and retry."; }
       catch (RuntimeException e) { error(e); }
@@ -819,7 +838,10 @@ public class MainActivity extends Activity implements SensorEventListener {
       }
       if (!pairPending) {
         pairPending = true;
-        note = "Preparing Bluetooth mouse before pairing…";
+        tracking = false;
+        input.post(this::resetInput);
+        hid.beginPairing();
+        note = "Preparing fresh pairing. Select this phone on your iPad / PC.";
         awaitPairReady(SystemClock.elapsedRealtime() + 10000);
       }
     } catch (SecurityException e) {
@@ -1133,6 +1155,7 @@ public class MainActivity extends Activity implements SensorEventListener {
   @Override
   protected void onDestroy() {
     ui.removeCallbacks(tick);
+    unregisterReceiver(bondReceiver);
     if (sensors != null) sensors.unregisterListener(this);
     input.post(
         () -> {

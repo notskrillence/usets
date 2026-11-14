@@ -108,6 +108,8 @@ public final class HidTransport implements AutoCloseable {
   private boolean closed;
   private boolean fault;
   private boolean reconnectEnabled;
+  private boolean pairingMode;
+  private volatile boolean pairingPrepared;
   private int reconnectAttempts;
   private int buttons;
   private final byte[] report = new byte[4];
@@ -237,6 +239,24 @@ public final class HidTransport implements AutoCloseable {
         }
       };
 
+  /** Explicit fresh host-initiated pairing: never race an outgoing connection against SSP. */
+  public void beginPairing() {
+    pairingPrepared = false;
+    onHandler(() -> {
+      disconnect();
+      pairingMode = true;
+      try {
+        if (hid != null && registered) {
+          status = "Refreshing Bluetooth mouse registration";
+          if (!hid.unregisterApp()) status = "Android rejected registration reset; restart Bluetooth and retry";
+        } else startInternal();
+      } catch (SecurityException e) { permissionFailure(); }
+      catch (RuntimeException e) { status = "Pairing reset failed: " + e.getClass().getSimpleName(); }
+    });
+  }
+
+  public boolean isPairingPrepared() { return pairingPrepared && registered; }
+
   public boolean isRegistered() { return registered; }
 
   private void register() {
@@ -306,6 +326,10 @@ public final class HidTransport implements AutoCloseable {
   private void connectInternal() {
     if (closed || !registered || hid == null || wantedHost == null || !reconnectEnabled) return;
     try {
+      if (wantedHost.getBondState() != BluetoothDevice.BOND_BONDED) {
+        status = "Waiting for system Bluetooth pairing to finish";
+        return;
+      }
       if (host != null
           && host.equals(wantedHost)
           && hid.getConnectionState(host) == BluetoothProfile.STATE_CONNECTED) {
@@ -468,15 +492,15 @@ public final class HidTransport implements AutoCloseable {
             available = false;
             host = null;
             buttons = 0;
+            pairingPrepared = false;
             status = "HID app unregistered by Android; keep app visible and press Connect";
+            if (pairingMode) register();
           } else {
             fault = false;
             bootProtocol = false;
             status = "HID ready; pair from iPad/PC Bluetooth settings or select a paired host";
-            if (pluggedDevice != null && wantedHost == null) {
-              wantedHost = pluggedDevice;
-              reconnectEnabled = true;
-            }
+            pairingPrepared = pairingMode;
+            // A plugged device may still be negotiating security. Let the host open HID.
             connectInternal();
           }
         }
@@ -487,6 +511,7 @@ public final class HidTransport implements AutoCloseable {
           if (state == BluetoothProfile.STATE_CONNECTED) {
             host = device;
             wantedHost = device;
+            pairingMode = false;
             reconnectEnabled = true;
             reconnectAttempts = 0;
             handler.removeCallbacks(reconnect);
