@@ -374,7 +374,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                   resetInput();
                   udp.close();
                   udpSelected = false;
-                  hid.start();
+                  startHid();
                   note = "Direct Bluetooth HID selected";
                 }));
     button(
@@ -768,7 +768,7 @@ public class MainActivity extends Activity implements SensorEventListener {
   public void onRequestPermissionsResult(int r, String[] p, int[] g) {
     super.onRequestPermissionsResult(r, p, g);
     if (r == 10 && permissionsGranted()) {
-      hid.start();
+      startHid();
       note = "Bluetooth permission granted; Pair / discover to continue";
     } else if (r == 10) note = "Bluetooth permission denied. Local lab remains available.";
   }
@@ -781,9 +781,31 @@ public class MainActivity extends Activity implements SensorEventListener {
                 == PackageManager.PERMISSION_GRANTED);
   }
 
+  private void startHid() {
+    try {
+      startForegroundService(new Intent(this, PairingService.class));
+      hid.start();
+    } catch (RuntimeException e) { note = "Cannot keep Bluetooth foreground: " + e.getMessage(); }
+  }
+
+  private boolean pairPending;
+  private void awaitPairReady(long deadline) {
+    if (!foreground || isFinishing()) { pairPending = false; return; }
+    if (PairingService.active && hid.isRegistered()) {
+      pairPending = false;
+      Intent discover = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+      discover.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
+      try { startActivity(discover); note = "Pair from iPad / PC Bluetooth settings and confirm both codes."; }
+      catch (SecurityException e) { note = "Bluetooth permission changed; grant Nearby devices and retry."; }
+      catch (RuntimeException e) { error(e); }
+    } else if (SystemClock.elapsedRealtime() < deadline) {
+      ui.postDelayed(() -> awaitPairReady(deadline), 100);
+    } else { pairPending = false; note = "Mouse registration not ready: " + hid.status + ". Retry Pair after Bluetooth is on."; }
+  }
+
   private void pair() {
     if (!permissions()) return;
-    hid.start();
+    startHid();
     try {
       BluetoothManager m = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
       if (m == null || m.getAdapter() == null) {
@@ -795,12 +817,11 @@ public class MainActivity extends Activity implements SensorEventListener {
         note = "Enable Bluetooth, then Pair / discover";
         return;
       }
-      Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-      i.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
-      startActivity(i);
-      note =
-          "On iPad / PC open Bluetooth settings, choose this phone, confirm pairing; return and"
-              + " Connect host.";
+      if (!pairPending) {
+        pairPending = true;
+        note = "Preparing Bluetooth mouse before pairing…";
+        awaitPairReady(SystemClock.elapsedRealtime() + 10000);
+      }
     } catch (SecurityException e) {
       note = "Bluetooth permission changed; grant Nearby devices and retry";
     } catch (Exception e) {
@@ -810,7 +831,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
   private void hosts() {
     if (!permissions()) return;
-    hid.start();
+    startHid();
     List<BluetoothDevice> list = hid.bondedHosts();
     if (list.isEmpty()) {
       note = "No paired hosts. Use Pair / discover and pair from the iPad / PC.";
@@ -1089,7 +1110,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     super.onResume();
     foreground = true;
     if (sensors != null) registerSensors();
-    if (hid != null && permissionsGranted()) hid.start();
+    if (hid != null && permissionsGranted()) startHid();
   }
 
   @Override
@@ -1120,6 +1141,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         });
     inputThread.quitSafely();
     files.shutdown();
+    stopService(new Intent(this, PairingService.class));
     super.onDestroy();
   }
 

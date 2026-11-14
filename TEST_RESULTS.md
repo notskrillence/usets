@@ -1,3 +1,5 @@
+Latest update: version0.1.1 pairing fix; see PAIRING-FIX.md for current build/verification and retry instructions. Earlier0.1.0 evidence below is historical.
+
 # Verification results
 
 All automated checks below executed on Linux, using synthetic inputs or explicitly isolated Android doubles where stated. Full output: verification/TEST-LOG.txt.

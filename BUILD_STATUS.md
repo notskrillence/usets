@@ -1,3 +1,5 @@
+Latest update: version0.1.1 pairing fix; see PAIRING-FIX.md for current build/verification and retry instructions. Earlier0.1.0 evidence below is historical.
+
 # Latest build
 
 Command: JAVA_HOME=/workspace/work/toolchain/jdk-21.0.13+9 GRADLE_USER_HOME=/workspace/work/toolchain/gradle-cache ./gradlew clean :app:assembleDebug :app:lintDebug --console=plain

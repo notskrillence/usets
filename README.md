@@ -1,6 +1,8 @@
 # GyroLab X
 
-Download the [Android APK](downloads/GyroLab-X-0.1.0.apk?raw=true), [source archive](downloads/GyroLab-X-source.zip?raw=true), or [optional Windows receiver](downloads/GyroLabReceiver-Windows-x64.zip?raw=true). Read [START-HERE](downloads/START-HERE.md) for installation and pairing. Bluetooth HID is the default iPad/Windows path; physical pairing remains unverified.
+Latest: **0.1.1** fixes pairing registration lifetime/timing. See [pairing fix and retry steps](PAIRING-FIX.md).
+
+Download the [Android APK](downloads/GyroLab-X-0.1.1.apk?raw=true), [source archive](downloads/GyroLab-X-0.1.1-source.zip?raw=true), or [optional Windows receiver](downloads/GyroLabReceiver-Windows-x64.zip?raw=true). Read [START-HERE](downloads/START-HERE.md) for installation and pairing. Bluetooth HID is the default iPad/Windows path; physical pairing remains unverified.
 
 An Android gyroscopic mouse with direct Bluetooth HID output, twelve deterministic motion processors, and a local measurement/replay laboratory. The APK runs on the phone; an iPad or Windows computer is the Bluetooth mouse host. No receiver is needed for Bluetooth.
 

@@ -102,7 +102,7 @@ public final class HidTransport implements AutoCloseable {
   private BluetoothHidDevice hid;
   private BluetoothDevice host;
   private BluetoothDevice wantedHost;
-  private boolean registered;
+  private volatile boolean registered;
   private boolean registrationPending;
   private boolean proxyPending;
   private boolean closed;
@@ -236,6 +236,8 @@ public final class HidTransport implements AutoCloseable {
               });
         }
       };
+
+  public boolean isRegistered() { return registered; }
 
   private void register() {
     if (closed || hid == null || registered || registrationPending) return;
