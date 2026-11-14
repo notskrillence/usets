@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=GyroLab X Development
+Signer #1 certificate SHA-256 digest: 594fca968bf5cef7307651fcc3cf91253da24d2552a3c86b4d29023b579fe3a0
+Signer #1 certificate SHA-1 digest: 0ff5ee8fddea285ad5876b131e64f177359b1d24
+Signer #1 certificate MD5 digest: a1d237eefe30ad303cfac851ae2293e6
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: b79a78831a956abed8814bf366d397008164ac4d8aacb996303dd01e7a84aae8
+Signer #1 public key SHA-1 digest: e421a1a822c7e3ba73bfca660c8102efc86b5a8f
+Signer #1 public key MD5 digest: 4bf1eb42878fc033da9e92c7711fd674

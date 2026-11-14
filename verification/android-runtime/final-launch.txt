@@ -1,0 +1,7 @@
+Starting: Intent { cmp=io.gyrolab.x/io.gyrolab.app.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: io.gyrolab.x/io.gyrolab.app.MainActivity
+TotalTime: 5992
+WaitTime: 6037
+Complete

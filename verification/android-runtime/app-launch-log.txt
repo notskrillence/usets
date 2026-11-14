@@ -1,0 +1,8 @@
+11-14 15:54:18.535   511   837 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=io.gyrolab.x/io.gyrolab.app.MainActivity} from uid 2000
+11-14 15:54:19.695   511   572 I ActivityManager: Start proc 2246:io.gyrolab.x/u0a74 for pre-top-activity {io.gyrolab.x/io.gyrolab.app.MainActivity}
+11-14 15:54:20.623   511   571 I ActivityManager: Force stopping io.gyrolab.x appid=10074 user=-1: installPackageLI
+11-14 15:54:20.630   511   571 I ActivityManager: Killing 2246:io.gyrolab.x/u0a74 (adj -10000): stop io.gyrolab.x due to installPackageLI
+11-14 15:54:20.643   511   571 W ActivityTaskManager: Force removing ActivityRecord{e4ec674 u0 io.gyrolab.x/io.gyrolab.app.MainActivity t5 f}}: app died, no saved state
+11-14 15:54:35.489   511  1633 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=io.gyrolab.x/io.gyrolab.app.MainActivity} from uid 2000
+11-14 15:54:36.890   511   572 I ActivityManager: Start proc 2315:io.gyrolab.x/u0a74 for pre-top-activity {io.gyrolab.x/io.gyrolab.app.MainActivity}
+11-14 15:56:12.742   511   570 I ActivityTaskManager: Displayed io.gyrolab.x/io.gyrolab.app.MainActivity: +9s531ms

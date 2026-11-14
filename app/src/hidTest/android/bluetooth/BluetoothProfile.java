@@ -1,0 +1,1 @@
+package android.bluetooth; public interface BluetoothProfile {int HID_DEVICE=19,STATE_DISCONNECTED=0,STATE_CONNECTING=1,STATE_CONNECTED=2;interface ServiceListener {void onServiceConnected(int profile,BluetoothProfile proxy);void onServiceDisconnected(int profile);}}

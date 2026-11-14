@@ -1,0 +1,1 @@
+This development-only APK signing key is intentionally included so source rebuilds can upgrade the delivered debug APK. Alias androiddebugkey; store/key password android. It is not a private production signing identity. Android SDK caches and generated build files are not included.

@@ -1,0 +1,41 @@
+{
+  "project": "GyroLab X",
+  "version": "0.1.0",
+  "source_commit": "7739d3166131ece9ce5f0b772ee752147eeaf9d4",
+  "android_package": "io.gyrolab.x",
+  "min_sdk": 28,
+  "target_sdk": 35,
+  "apk_signing": "development v2",
+  "primary_transport": "Bluetooth HID, iPad/Windows intended; physical host unverified",
+  "verification": {
+    "clean_build": "passed",
+    "android_lint": "0 errors, 36 warnings",
+    "software_checks": 18835,
+    "final_apk_android_api30_install_and_cold_launch": "passed",
+    "earlier_mouse_hierarchy_checks": 2,
+    "physical_android_ipad_windows": "not verified"
+  },
+  "delivery": "staged cloud build products; mandatory chat output path is unwritable",
+  "artifacts": [
+    {
+      "file": "GyroLab-X-0.1.0.apk",
+      "bytes": 187109,
+      "sha256": "81136c8983081fcf87bd2c32289c6145f983cc7eda9430b33d60b0a150d0b051"
+    },
+    {
+      "file": "GyroLab-X-source.zip",
+      "bytes": 199110,
+      "sha256": "dbd730970a320b8422a052b8894b71dd7ecfb066ff7fecc72eafc7dd24db15ec"
+    },
+    {
+      "file": "GyroLabReceiver-Windows-x64.zip",
+      "bytes": 32950,
+      "sha256": "4ee3d7c6afd24f5f974fa9963392cfb6b9ac10010d8918faec0a5a96f7203e05"
+    },
+    {
+      "file": "START-HERE.md",
+      "bytes": 1982,
+      "sha256": "4f3bd3e9be1cf0370344807cb8730fafc4ed7060baad462d5dd49ebc5eba566e"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+package android.content; public class Context {public static final String BLUETOOTH_SERVICE="bluetooth";private final Object manager;public Context(Object manager){this.manager=manager;}public Context getApplicationContext(){return this;}public Object getSystemService(String key){return manager;}}

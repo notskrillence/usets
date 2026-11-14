@@ -1,0 +1,20 @@
+{
+  "apk_sha256": "4e7e5dfb96feac2a724aee50ba7d55494f7e15a9c635b35a31ba376bd1bd4d6c",
+  "runtime": "Android API30 Google ATD x86_64; QEMU TCG; no KVM",
+  "verified": [
+    "APK installed successfully through actual adb install",
+    "MainActivity running with native Mouse page hierarchy",
+    "Enabled Mouse controls below upper damaged quarter on480x960 display"
+  ],
+  "unverified": [
+    "Pixel rendering: captured framebuffer was black",
+    "Advanced/Lab interaction and preset persistence: runtime automation timed out",
+    "Nonzero sensor-to-pointer output on actual Android runtime",
+    "Physical Android sensors, Bluetooth host pairing, iPad or Windows pointer movement"
+  ],
+  "notes": [
+    "ATD guest first boot overloaded software emulation; guest-only GMS was disabled for follow-up attempt",
+    "No GyroLab fatal stack found in retained first-run log",
+    "Restarted guest remained slow; bounded follow-up UI dump timed out; no additional pass claimed"
+  ]
+}

@@ -1,0 +1,176 @@
+/workspace/work/gyrolab/app/src/main/AndroidManifest.xml:6: Warning: Most apps don't need access to high sensor sampling rate. [HighSamplingRate]
+ <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"/>
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "HighSamplingRate":
+   Most apps don't need access to high sensor sampling rate. Double check your
+   use case to ensure your app absolutely needs access to sensor sampling rate
+   > 200Hz. Be prepared for your app to be rejected from listing on Play Store
+   until your use case for high sensor sampling rate has been reviewed and
+   validated by the policy team.
+
+/workspace/work/gyrolab/app/src/main/AndroidManifest.xml:10: Warning: The attribute android:allowBackup is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute android:dataExtractionRules specifying an @xml resource which configures cloud backups and device transfers on Android 12 and higher. [DataExtractionRules]
+ <application android:label="GyroLab X" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false" android:supportsRtl="true">
+                                                                                                                             ~~~~~
+
+   Explanation for issues of type "DataExtractionRules":
+   Before Android 12, the attributes android:allowBackup and
+   android:fullBackupContent were used to configure all forms of backup,
+   including cloud backups, device-to-device transfers and adb backup.
+
+   In Android 12 and higher, these attributes have been deprecated and will
+   only apply to cloud backups. You should instead use the attribute
+   android:dataExtractionRules, specifying an @xml resource that configures
+   which files to back up, for cloud backups and for device-to-device
+   transfers, separately. If your minSdkVersion supports older versions,
+   you'll still want to specify an android:fullBackupContent resource if the
+   default behavior is not right for your app.
+
+   https://developer.android.com/about/versions/12/backup-restore#xml-changes
+   https://goo.gle/DataExtractionRules
+
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1334: Warning: Avoid object allocations during draw/layout operations (preallocate and reuse instead) [DrawAllocation]
+      android.graphics.Path path = new android.graphics.Path();
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "DrawAllocation":
+   You should avoid allocating objects during a drawing or layout operation.
+   These are called frequently, so a smooth UI can be interrupted by garbage
+   collection pauses caused by the object allocations.
+
+   The way this is generally handled is to allocate the needed objects up
+   front and to reuse them for each drawing operation.
+
+   Some methods allocate memory on your behalf (such as Bitmap.create), and
+   these should be handled in the same way.
+
+/workspace/work/gyrolab/app/src/main/AndroidManifest.xml:10: Warning: Should explicitly set android:icon, there is no default [MissingApplicationIcon]
+ <application android:label="GyroLab X" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:allowBackup="false" android:supportsRtl="true">
+  ~~~~~~~~~~~
+
+   Explanation for issues of type "MissingApplicationIcon":
+   You should set an icon for the application as whole because there is no
+   default. This attribute must be set as a reference to a drawable resource
+   containing the image (for example @drawable/icon).
+
+   https://developer.android.com/studio/publish/preparing#publishing-configure
+
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/LabView.java:316: Warning: Custom view LabView overrides onTouchEvent but not performClick [ClickableViewAccessibility]
+  public boolean onTouchEvent(MotionEvent event) {
+                 ~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:280: Warning: Custom view `Button` has setOnTouchListener called on it but does not override performClick [ClickableViewAccessibility]
+    clutch.setOnTouchListener(
+    ^
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:281: Warning: onTouch lambda should call View#performClick when a click is detected [ClickableViewAccessibility]
+        (v, e) -> {
+        ^
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:322: Warning: Custom view `Button` has setOnTouchListener called on it but does not override performClick [ClickableViewAccessibility]
+    b.setOnTouchListener(
+    ^
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:323: Warning: onTouch lambda should call View#performClick when a click is detected [ClickableViewAccessibility]
+        (v, e) -> {
+        ^
+
+   Explanation for issues of type "ClickableViewAccessibility":
+   If a View that overrides onTouchEvent or uses an OnTouchListener does not
+   also implement performClick and call it when clicks are detected, the View
+   may not handle accessibility actions properly. Logic handling the click
+   actions should ideally be placed in View#performClick as some accessibility
+   services invoke performClick when a click action should occur.
+
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:74: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+      setText(options[selected] + " ▾");
+              ~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:99: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+        option.setText((i == selected ? "✓ " : "") + options[i]);
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:110: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+      close.setText("Close");
+                    ~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:258: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+    cancel.setText("Cancel");
+                   ~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:259: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+    apply.setText("Apply settings");
+                  ~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:272: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            error.setText("Choose two different gyro axes.");
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:287: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+              error.setText("Check " + n.label);
+                            ~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:287: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+              error.setText("Check " + n.label);
+                            ~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/AdvancedPanel.java:348: Warning: Number formatting does not take into account locale settings. Consider using String.format instead. [SetTextI18n]
+      e.setText(Double.toString(field.getDouble(source)));
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:234: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            if (u) gain.setText("Sensitivity " + value + " counts / rad • both axes");
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:234: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            if (u) gain.setText("Sensitivity " + value + " counts / rad • both axes");
+                                ~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:234: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            if (u) gain.setText("Sensitivity " + value + " counts / rad • both axes");
+                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:649: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+        "Cumulative generated counts; auto-scaled. Same physical trace, no human-performance"
+        ^
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:649: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+        "Cumulative generated counts; auto-scaled. Same physical trace, no human-performance"
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:651: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            + "Path "
+              ~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:653: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+            + " counts; net "
+              ~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:854: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+            (raw ? "Uncalibrated gyro" : "Calibrated gyro")
+            ^
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:855: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+                + " • request "
+                  ~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:857: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+                + " Hz");
+                  ~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:955: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+    close.setText("Close");
+                  ~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1236: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+          (udpSelected ? udp.status : hid.status)
+          ^
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1243: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+    if (modeButton != null) modeButton.setText("Mode: " + MotionEngine.MODE_NAMES[config.mode]);
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1243: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+    if (modeButton != null) modeButton.setText("Mode: " + MotionEngine.MODE_NAMES[config.mode]);
+                                               ~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1244: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+    if (taskButton != null) taskButton.setText("Task: " + labKind + " • restart / choose");
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1244: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+    if (taskButton != null) taskButton.setText("Task: " + labKind + " • restart / choose");
+                                               ~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1244: Warning: String literal in setText can not be translated. Use Android resources instead. [SetTextI18n]
+    if (taskButton != null) taskButton.setText("Task: " + labKind + " • restart / choose");
+                                                                    ~~~~~~~~~~~~~~~~~~~~~
+/workspace/work/gyrolab/app/src/main/java/io/gyrolab/app/MainActivity.java:1250: Warning: Do not concatenate text displayed with setText. Use resource string with placeholders. [SetTextI18n]
+          (labView == null ? "" : labView.summary() + "\n")
+          ^
+
+   Explanation for issues of type "SetTextI18n":
+   When calling TextView#setText
+   * Never call Number#toString() to format numbers; it will not handle
+   fraction separators and locale-specific digits properly. Consider using
+   String#format with proper format specifications (%d or %f) instead.
+   * Do not pass a string literal (e.g. "Hello") to display text. Hardcoded
+   text can not be properly translated to other languages. Consider using
+   Android resource strings instead.
+   * Do not build messages by concatenating text chunks. Such messages can not
+   be properly translated.
+
+   https://developer.android.com/guide/topics/resources/localization.html
+
+0 errors, 36 warnings

@@ -1,0 +1,11 @@
+# Motion replay laboratory
+
+`Recording` stores bounded timestamped gyro/accelerometer samples. `write` exports a versioned CSV with full numeric/boolean core configuration, bias calibration, coordinate mapping and origin; `read` restores it. Live Android recordings use `origin=live_sensor`. Tests use `synthetic_test`. Stop recording and start a new segment after calibration/frame changes. Do not treat synthetic tests as hardware measurements.
+
+`replay(config)` returns cumulative pointer **counts**, not Windows pixels. Every algorithm sees the same raw data; its state is reset initially. Duplicate/gap handling belongs to the shared engine. `compare(config)` reports path length, net displacement, sample RMS speed and trajectory differences from the direct baseline. Replay-runtime CPU timings are measured computation only and vary between runs. Counterfactual replay cannot establish how a human would have aimed under a different feedback function.
+
+`sweep(config, objective)` evaluates 20 One Euro minimum-cutoff/beta pairs on the first two thirds and reports an untouched final-third score. Selection uses training only; held-out data may reveal regression. These are engineering proxy objectives, **not human target acquisition objectives**. Stability minimizes near-stationary output energy plus distortion; tracking minimizes velocity deviation from direct output plus roughness; balanced averages stability and distortion. With no near-stationary samples, stability uses a declared roughness proxy. Run new human trials before adopting a candidate. No settings change automatically.
+
+`TargetMetrics` accumulates actual on-device click attempts, endpoint errors, elapsed acquisition time and path efficiency (straight distance from start to acquired endpoint divided by traveled path). Misses keep the target active. It reports nominal `log2(1+D/W)` using center distance and target diameter, and nominal throughput, **not effective Fitts throughput**, which would require sufficient endpoint distributions and trial design.
+
+All replay operations should run away from the Android sensor/UI thread, with recording stopped. Run standalone tests by compiling the core and lab sources plus `LabTest`, then `java io.gyrolab.lab.LabTest`.

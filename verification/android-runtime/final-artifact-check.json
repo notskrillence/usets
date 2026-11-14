@@ -1,0 +1,10 @@
+{
+  "apk_sha256": "81136c8983081fcf87bd2c32289c6145f983cc7eda9430b33d60b0a150d0b051",
+  "actual_android_install": "passed",
+  "runtime": "Android API30 Google ATD x86_64; software QEMU TCG",
+  "physical_hardware_verified": false,
+  "portrait_hierarchy_prior_apk_sha256": "4e7e5dfb96feac2a724aee50ba7d55494f7e15a9c635b35a31ba376bd1bd4d6c",
+  "actual_android_launch": "passed: Status ok, COLD, io.gyrolab.x/io.gyrolab.app.MainActivity",
+  "final_build_navigation_verified": false,
+  "final_build_pixel_rendering_verified": false
+}

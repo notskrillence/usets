@@ -1,0 +1,1 @@
+package android.bluetooth;public class BluetoothHidDeviceAppSdpSettings {public final byte[] descriptor;public BluetoothHidDeviceAppSdpSettings(String n,String d,String p,byte subclass,byte[] descriptor){this.descriptor=descriptor.clone();}}

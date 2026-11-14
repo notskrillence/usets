@@ -1,0 +1,29 @@
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+PASS 13189 numerical assertions; synthetic JVM tests only
+LabTest passed: 4538 assertions; synthetic input only.
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+LabView standalone checks passed: 24 (Android doubles; no device/rendering verification)
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+PASS: 31 actual UDP loopback checks with explicit Android scheduling/clock JVM doubles (not Android execution)
+PASS: 38 protocol, limit, order, stale, session, wrap and timeout checks
+build/tests/deps/json-20240303.jar: OK
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+ConfigStore checks passed: 62
+warning: [options] source value 8 is obsolete and will be removed in a future release
+warning: [options] target value 8 is obsolete and will be removed in a future release
+warning: [options] To suppress warnings about obsolete options, use -Xlint:-options.
+3 warnings
+HidTransport API-double tests: 953 assertions passed. No Android/Bluetooth/Windows hardware was exercised.
+Software test suites passed. Android/iPad/Windows hardware behavior is a separate check.
